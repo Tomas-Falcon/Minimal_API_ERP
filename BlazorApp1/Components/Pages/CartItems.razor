@@ -1,0 +1,87 @@
+﻿@page "/cartitems"
+@using BlazorApp1.Dtos
+@using BlazorApp1.Services
+@using System.Net
+
+<h3>Cart Items</h3>
+
+@if (cartItems == null)
+{
+    <p><em>@texto</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Count</th>
+                <th>Date Created</th>
+                <th>Product GUID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in cartItems)
+            {
+                <tr>
+                    <td>@item.CartItemIdGuid</td>
+                    <td>@item.Count</td>
+                    <td>@item.DateCreated.ToShortDateString()</td>
+                    <td>@item.ProductGuid</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button @onclick="PreviousPage" disabled="@isFirstPage">Previous</button>
+    <button @onclick="NextPage" disabled="@isLastPage">Next</button>
+}
+
+@code {
+    [Inject] private ICartItemService cartItemService { get; set; }
+    private IList<CartItemDto>? cartItems;
+    private int currentPage = 0;
+    private const int pageSize = 10;
+    private bool isFirstPage => currentPage == 0;
+    private bool isLastPage => cartItems == null || cartItems.Count < pageSize;
+    private string texto = "Cargando";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCartItems();
+    }
+
+    private async Task LoadCartItems()
+    {
+        try
+        {
+            cartItems = await cartItemService.GetCartItemsPagedAsync(currentPage, pageSize);
+        }
+        catch (HttpRequestException ex)
+        {
+            if (ex.StatusCode.Equals(HttpStatusCode.NotFound))
+                texto = "no hay elementos en el carrito";
+
+        }
+       
+    }
+
+    private async Task PreviousPage()
+    {
+        if (currentPage > 0)
+        {
+            currentPage--;
+            await LoadCartItems();
+        }
+    }
+
+    private async Task NextPage()
+    {
+        if (cartItems != null && cartItems.Count == pageSize)
+        {
+            currentPage++;
+            await LoadCartItems();
+        }
+    }
+}
