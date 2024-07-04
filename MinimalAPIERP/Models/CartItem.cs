@@ -21,7 +21,7 @@ public partial class CartItem
     public int Count { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime DateCreated { get; set; }
+    public DateTime DateCreated { get; set; } = DateTime.Now;
 
     [ForeignKey("ProductId")]
     [InverseProperty("CartItems")]

@@ -33,5 +33,7 @@ app.MapProductApi();
 app.MapRaincheckApi();
 app.MapOrderApi();
 app.MapCategoryApi();
+app.MapOrderDetailsApi();
+app.MapCartItemApi();
 
 app.Run();

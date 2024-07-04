@@ -1,6 +1,8 @@
-﻿namespace MinimalAPIERP.Dtos
+﻿using ERP;
+
+namespace MinimalAPIERP.Dtos
 {
-    public class RaincheckDto
+    public record RaincheckDto
     {
         public string? Name { get; set; }
         public int Count { get; set; }
@@ -9,34 +11,51 @@
         public ProductDto? Product { get; set; }
     }
 
-    public class StoreDtoView
+    public record StoreDtoView
     {
         public string? Name { get; set; }
-        public Guid GuidId { get; set; }
+        public required Guid GuidId { get; set; }
     }
 
-    public class StoreDto
+    public record StoreDto
     {
         public string? Name { get; set; }
     }
 
-    public class ProductDtoView
+    public record ProductDtoView
     {
-        public string? Name { get; set; }
+        public required Guid ProductIdGuid { get; set; }
+        public string SkuNumber { get; set; }
+        public string Title { get; set; }
+        public decimal Price { get; set; }
+        public decimal SalePrice { get; set; }
+        public string? ProductArtUrl { get; set; }
+        public string Description { get; set; }
+        public DateTime Created { get; set; }
+        public string ProductDetails { get; set; }
+        public int Inventory { get; set; }
+        public int LeadTime { get; set; }
         public Guid? CategoryIdGuid { get; set; }
-        public Guid ProductIdGuid { get; set; }
-
     }
-    public class ProductDto
-    {
 
-        public string? Name { get; set; }
+    public record ProductDto
+    {
+        public string SkuNumber { get; set; }
+        public string Title { get; set; }
+        public decimal Price { get; set; }
+        public decimal SalePrice { get; set; }
+        public string? ProductArtUrl { get; set; }
+        public string Description { get; set; }
+        public string ProductDetails { get; set; }
+        public int Inventory { get; set; }
+        public int LeadTime { get; set; }
         public Guid? CategoryIdGuid { get; set; }
     }
 
-    public class CategoryDto
+
+    public record CategoryDto
     {
-        public Guid CategoryIdGuid { get; set; }
+        public required Guid CategoryIdGuid { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
@@ -44,16 +63,16 @@
 
    
 
-    public class CategoryDtoView
+    public record CategoryDtoView
     {
         public string Name { get; set; }
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
     }
 
-    public class OrderDto
+    public record OrderDto
     {
-        public Guid OrderIdGuid { get; set; }
+        public required Guid OrderIdGuid { get; set; }
         public DateTime OrderDate { get; set; }
         public string Username { get; set; } = null!;
         public string Name { get; set; } = null!;
@@ -67,7 +86,7 @@
         public decimal Total { get; set; }
     }
 
-    public class OrderDtoView
+    public record OrderDtoView
     {
         public DateTime OrderDate { get; set; }
         public string Username { get; set; } = null!;
@@ -82,5 +101,35 @@
         public decimal Total { get; set; }
     }
 
-   
+    public record OrderDetailDto
+    {
+        public required Guid OrderDetailIdGuid { get; set; }
+        public required Guid OrderGuid { get; set; }
+        public required Guid ProductGuid { get; set; }
+        public int Count { get; set; }
+        public decimal UnitPrice { get; set; }
+    }
+
+    public record OrderDetailDtoView
+    {
+        public Order Order { get; set; }
+        public Product Product { get; set; }
+        public int Count { get; set; }
+        public decimal UnitPrice { get; set; }
+    }
+
+    public record CartItemDto
+    {
+        public Guid CartItemIdGuid { get; set; }
+        public Guid ProductGuid { get; set; }
+        public int Count { get; set; }
+        public DateTime DateCreated { get; set; }
+    }
+
+    public record CartItemDtoView
+    {
+        public Product Product { get; set; }
+        public int Count { get; set; }
+    }
+
 }

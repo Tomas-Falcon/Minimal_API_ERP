@@ -35,7 +35,7 @@ public partial class Product
     public string Description { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
-    public DateTime Created { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
 
     public string ProductDetails { get; set; } = null!;
 
