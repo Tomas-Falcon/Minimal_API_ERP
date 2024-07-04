@@ -109,6 +109,8 @@ internal static class StoreApi
         })
         .WithOpenApi();
 
+       
+
         return group;
     }
 }

@@ -32,6 +32,18 @@ namespace MinimalAPIERP.Api
             })
             .WithOpenApi();
 
+            group.MapGet("/cartitem/paged", async Task<Results<Ok<IList<CartItemDto>>, NotFound>> (AppDbContext db, IMapper mapper, int pageSize = 10, int page = 0) =>
+            {
+                ICollection<CartItem> cartItems = await db.CartItems
+                    .OrderBy(x => x.CartItemIdGuid)
+                    .Include(x => x.Product)
+                    .Skip(page * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+                return cartItems.Any() ? TypedResults.Ok(mapper.Map<IList<CartItemDto>>(cartItems)) : TypedResults.NotFound();
+            })
+            .WithOpenApi();
+
             // Get cart item by ID
             group.MapGet("/cartitem/{CartItemIdGuid}", async Task<Results<Ok<CartItemDto>, NotFound>> (Guid CartItemIdGuid, AppDbContext db, IMapper mapper) =>
             {
