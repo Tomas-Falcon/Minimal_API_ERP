@@ -12,7 +12,6 @@ namespace BlazorApp1
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICartItemService, CartItemService>();
 
@@ -30,7 +29,11 @@ namespace BlazorApp1
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 14c81904762e8807de39f5ea0a0a657133943e3d
             app.Run();
         }
     }
